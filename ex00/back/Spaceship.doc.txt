@@ -1,0 +1,14 @@
+<- Spaceship ----------------------------------------------------------------------
+The Spaceship class create a new Spaceship for the game.
+
+An instance must be constructed with two values an array size and an array of array obstacles.
+new Map(array('size' => [150, 100], 'obstacles' => [[75, 20], [20, 30]]));
+
+Attributes are read / write with accessors.
+
+The class provides the following methods :
+
+getMap(void);
+return the map data.
+
+---------------------------------------------------------------------- Spaceship ->
