@@ -9,12 +9,14 @@ class Spaceship {
 	private $name;
 	private $size = [];
 	private $position = [];
+	private $basePP;
+	private $currPP;
 	private $lives;
-	private $energy;
 	private $speed;
+	private $inertia;
+	private $manoeuvrability;
 	private $shield = 0;
 	private $sprite;
-
 	public $weapon;
 
 	public function __construct(array $kwargs) {
@@ -26,19 +28,23 @@ class Spaceship {
 			throw new Exception('Class Spaceship missing $kwargs["position"].');
 		} else if (!isset($kwargs['lives'])) {
 			throw new Exception('Class Spaceship missing $kwargs["lives"].');
-		} else if (!isset($kwargs['energy'])) {
-			throw new Exception('Class Spaceship missing $kwargs["energy"].');
+		} else if (!isset($kwargs['pp'])) {
+			throw new Exception('Class Spaceship missing $kwargs["pp"].');
 		} else if (!isset($kwargs['speed'])) {
 			throw new Exception('Class Spaceship missing $kwargs["speed"].');
 		} else if (!isset($kwargs['sprite'])) {
 			throw new Exception('Class Spaceship missing $kwargs["sprite"].');
+		} else if (!isset($kwargs['weapon'])) {
+			throw new Exception('Class Spaceship missing $kwargs["weapon"].');
+		} else if (!($kwargs['weapon'] instanceof Weapon)) {
+			throw new Exception('$kwargs["weapon"] has to be an instance of Weapon Class.');
 		}
 
 		$this->name = $kwargs['name'];
 		$this->size = $kwargs['size'];
 		$this->position = $kwargs['position'];
 		$this->lives = $kwargs['lives'];
-		$this->energy = $kwargs['energy'];
+		$this->basePP = $kwargs['pp'];
 		$this->speed = $kwargs['speed'];
 		$this->shield = $kwargs['shield'];
 		$this->sprite = $kwargs['sprite'];
@@ -48,5 +54,32 @@ class Spaceship {
 	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }
 	public function __set($name, $value) { throw new Exception('You have to use instance.setAttr() !'); }
 
-	public function getName() {  };
+	public function getName() { return $this->name; };
+	public function getSize() { return $this->size; };
+	public function getPosition() { return $this->position; };
+	public function getPP() { return $this->currPP; };
+	public function getLives() { return $this->lives; };
+	public function getSpeed() { return $this->speed; };
+	public function getInertia() { return $this->inertia; };
+	public function getManoeuvrability() { return $this->manoeuvrability; };
+	public function getShield() { return $this->shield; };
+	public function getSprite() { return $this->sprite; };
+
+	public function shieldUp() { $this->shield++; };
+	public function shieldDown() { if ($this->shield > 0) $this->shield--; };
+	public function livesUp() { $this->shield++; };
+	public function livesDown() { if ($this->shield > 0) $this->shield--; };
+	public function PPUp() { $this->currPP++; };
+	public function PPDown() { if ($this->currPP > 0) $this->currPP--; };
+
+	public function restorePP() {
+		$this->currPP = $this->basePP;
+	};
+
+	public function active() { return $this->active; };
+	public function reverseActive() { $this->active != $this->active; };
+
+	public function move() { };
+
+}
 ?>
