@@ -1,0 +1,14 @@
+<- Weapon ----------------------------------------------------------------------
+The Weapon class create a new Weapon who's going to be used by a ship.
+
+An instance must be constructed with two values an array size and an array of array obstacles.
+new Map(array('size' => [150, 100], 'obstacles' => [[75, 20], [20, 30]]));
+
+Attributes are read only.
+
+The class provides the following methods :
+
+getMap(void);
+return the map data.
+
+---------------------------------------------------------------------- Weapon ->
