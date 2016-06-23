@@ -13,7 +13,7 @@ class Spaceship {
 	private $currPP;
 	private $lives;
 	private $speed;
-	private $inertia;
+	private $inertia = 0;
 	private $manoeuvrability;
 	private $shield = 0;
 	private $sprite;
