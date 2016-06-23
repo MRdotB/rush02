@@ -54,32 +54,65 @@ class Spaceship {
 	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }
 	public function __set($name, $value) { throw new Exception('You have to use instance.setAttr() !'); }
 
-	public function getName() { return $this->name; };
-	public function getSize() { return $this->size; };
-	public function getPosition() { return $this->position; };
-	public function getPP() { return $this->currPP; };
-	public function getLives() { return $this->lives; };
-	public function getSpeed() { return $this->speed; };
-	public function getInertia() { return $this->inertia; };
-	public function getManoeuvrability() { return $this->manoeuvrability; };
-	public function getShield() { return $this->shield; };
-	public function getSprite() { return $this->sprite; };
+	public function getName() { return $this->name; }
+	public function getSize() { return $this->size; }
+	public function getPosition() { return $this->position; }
+	public function getPP() { return $this->currPP; }
+	public function getLives() { return $this->lives; }
+	public function getSpeed() { return $this->speed; }
+	public function getInertia() { return $this->inertia; }
+	public function getManoeuvrability() { return $this->manoeuvrability; }
+	public function getShield() { return $this->shield; }
+	public function getSprite() { return $this->sprite; }
 
-	public function shieldUp() { $this->shield++; };
-	public function shieldDown() { if ($this->shield > 0) $this->shield--; };
-	public function livesUp() { $this->shield++; };
-	public function livesDown() { if ($this->shield > 0) $this->shield--; };
-	public function PPUp() { $this->currPP++; };
-	public function PPDown() { if ($this->currPP > 0) $this->currPP--; };
+	public function shieldUp() { $this->shield++; }
+	public function shieldDown() { if ($this->shield > 0) $this->shield--; }
+	public function livesUp() { $this->shield++; }
+	public function livesDown() { if ($this->shield > 0) $this->shield--; }
+	public function PPDown() { if ($this->currPP > 0) $this->currPP--; }
 
 	public function restorePP() {
 		$this->currPP = $this->basePP;
+	}
+
+	public function active() { return $this->active; }
+	public function reverseActive() { $this->active != $this->active; }
+
+	public function buf($item) {
+		if ($this->currPP > 0) {
+			switch ($item) {
+			case "speed":
+				$this->speed++;
+				break;
+			case "gun":
+				$this->gun++;
+				break;
+			case "shield":
+				$this->shield++;
+				break;
+			case "repair":
+				$this->repair++;
+				break;;
+			}
+		} else {
+			// changement de phase
+			// fin phase give
+		}
+	}
+/*
+	public function possibleMove() {
+		$this->position;
+		$this->speed;
+		$this->manoeuvrability;
+		return
+	}
+
+	public function move($pos) {
+		$this->position;
+		$this->speed;
+		$this->manoeuvrability;
 	};
 
-	public function active() { return $this->active; };
-	public function reverseActive() { $this->active != $this->active; };
-
-	public function move() { };
-
+ */
 }
 ?>

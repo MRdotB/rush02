@@ -6,7 +6,9 @@ class Map {
 	use Doc;
 	private static $doc_path = 'back/Map.doc.txt';
 
-	private $map = [];
+	private $size;
+	private $obstacles = [];
+	private $space = [];
 
 	public function __construct(array $kwargs) {
 		if (!isset($kwargs['size'])) {
@@ -15,13 +17,20 @@ class Map {
 			throw new Exception('Class Map missing $kwargs["obstacles"].');
 		}
 
-		$this->map['size'] = $kwargs['size'];
-		$this->map['obstacles'] = $kwargs['obstacles'];
+		$this->size = $kwargs['size'];
+		$this->obstacles = $kwargs['obstacles'];
+		for ($y = 0; $y < $kwargs['size'][1]; $y++) {
+			for ($x = 0; $x < $kwargs['size'][0]; $x++) {
+				$this->space[$x][$y] = ".";
+			}
+		}
+		
 	}
 
 	public function __get($name) { throw new Exception('You have to use instance.getMap() !'); }
 	public function __set($name, $value) { throw new Exception('The attributes of Map Class is read only !'); }
 
-	public function getMap() { return $this->map; }
+	public function getSize() { return $this->size; }
+	public function getSpace() { return $this->space; }
 }
 ?>
