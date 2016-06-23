@@ -6,14 +6,30 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Awesome Starships Battles In The Dark Grim Futur Of The Grim Dark 41st Millenium</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css.css">
     </head>
     <body>
+    <div class="container">
+      <table id="cell-grid"></table>
+    </div>
 
-        <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.js"></script>
-        <script src="/lib/phaser-plugin-isometric/dist/phaser-plugin-isometric.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script src="front/main.js"></script>
+    <div class="container">
+    <div id="controls-container">
+      <h2>Player <span id="player"></span></h2>
+      <h2>Turn <span id="turn-number"></span></h2>
+      <h2>Phase <span id="phase"></span></h2>
+    <div>
+      <h2>PP</h2>
+      <div>Vous avez <span id="pp-number">0</span> PP</div><br>
+      <input type="number" name="quantity" min="1" max="5"> Attack<br>
+      <input type="number" name="quantity" min="1" max="5"> Speed<br>
+      <input type="number" name="quantity" min="1" max="5"> Repair<br>
+      <input type="number" name="quantity" min="1" max="5"> Shield<br>
+      <button>Envoyer</button>
+    </div>
+    </div>
+      <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script src="front/main.js"></script>
     </body>
 </html>
 
