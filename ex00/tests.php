@@ -1,8 +1,6 @@
 <?php
 include_once('back/Map.class.php'); 
 include_once('back/Game.class.php'); 
-include_once('back/Weapon.class.php'); 
-include_once('back/Crusader.class.php'); 
 include_once('back/Player.class.php'); 
 include_once('back/RollDice.trait.php'); 
 include_once('back/FatherOfDespair.class.php'); 

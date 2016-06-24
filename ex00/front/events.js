@@ -1,5 +1,5 @@
 var $order = $('#submitOrder');
-var $order = $('#submitOrder');
+var $reset = $('#reset');
 var $moveActions = $('#moveActions');
 
 var orderCb = function(data) {
@@ -7,7 +7,12 @@ var orderCb = function(data) {
 }
 
 var moveCb = function(data) {
-	console.log(data);
+	console.log('moveCb', data);
+	if (data.error) {
+		alert(data.errorMsg);
+	} else {
+		updateMap(data.map);
+	}
 }
 
 $order.on('click', function (e) {
@@ -30,7 +35,7 @@ console.log("attack speed repair shield", attack, speed, repair, shield);
 	} else {
 		var data = {
 			phase: "order",
-			attack: attack,
+			gun: attack,
 			speed: speed,
 			repair: repair,
 			shield: shield
@@ -48,12 +53,11 @@ console.log("attack speed repair shield", attack, speed, repair, shield);
 
 $moveActions.on('click', 'button', function (e) {
 	e.preventDefault();
-	//console.log($(e.currentTarget).attr('id'));
+//	console.log($(e.currentTarget).attr('id'));
 	var data = {
 		phase: "move",
-		action: $(e.currentTarget).attr('id')
+		move: $(e.currentTarget).attr('id')
 	};
-
 	$.ajax({
 		type: "POST",
 		url: "game.php",
@@ -61,4 +65,21 @@ $moveActions.on('click', 'button', function (e) {
 		success: moveCb,
 		dataType: 'json'
 	});
+});
+
+$reset.on('click', function(e) {
+	e.preventDefault();
+	var data = {
+		phase: "clean"
+	};
+	$.ajax({
+		type: "POST",
+		url: "game.php",
+		data: data,
+		success: function (data) {
+			console.log(data);
+		},
+		dataType: 'json'
+	});
+
 });
