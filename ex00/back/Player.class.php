@@ -146,27 +146,28 @@ class Player
 	private function get_area($ship, $map)
 	{
 		$area = array();
-		$area[] = $map[$ship->pos[0]][$ship->pos[1]];
+		array_push($area, [[$ship->pos[0]], [$ship->pos[1]]]);
 		if ($ship->aim % 2 == 0)
 		{
-			$area[] = $map->space[$ship->pos[0]][$ship->pos[1] - 1];//id = LETTRE
-			$area[] = $map->space[$ship->pos[0]][$ship->pos[1] + 1];
+			array_push($area, [[$ship->pos[0]], [$ship->pos[1] - 1]]);
+			array_push($area, [[$ship->pos[0]], [$ship->pos[1] + 1]]);
 		}
 		else
 		{
-			$area[] = $map->space[$ship->pos[0] - 1][$ship->pos[1]];//id = LETTRE
-			$area[] = $map->space[$ship->pos[0] + 1][$ship->pos[1]];
+			array_push($area, [[$ship->pos[0] - 1], [$ship->pos[1]]]);
+			array_push($area, [[$ship->pos[0] + 1], [$ship->pos[1]]]);
 		}
 		return ($area);
 	}
 
 	private function is_crashed($ship, $map)
 	{
-		$area = get_area($ship, $map);
+		$area = $this->get_area($ship, $map);
+		print_r($area);
 		foreach ($area as $el)
 		{
-			$case = $map->space[$el[0]][$el[1]]
-			if ($case != '.' || $case[0] > $map->max_X || $case[1] > $map->max_y)
+			if ($el[0] > $map->max_X || $el[1] > $map->max_y
+				|| $el[0] < 1 || $el[1] < 1 || $map->space[$el[0]][$el[1]] != '.')
 				return TRUE;
 		}
 		return FALSE;
