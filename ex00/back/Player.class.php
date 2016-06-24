@@ -10,7 +10,7 @@ class Player {
 
 	use RollDice;
 
-	public $name;
+	private $name;
 	public $ship;
 
 	function __construct($kwargs)
@@ -83,7 +83,7 @@ class Player {
 		$repair = $data['repair'];
 		while ($repair)
 		{
-			if ($this->RollDice() == 6 && $ship->lives < $ship->max_lives)
+			if ($this->RollDice() == 6 && $ship->lives < $ship->getMax_Lives())
 				$ship->lives++;
 			$repair--;
 		}
@@ -107,7 +107,7 @@ class Player {
 		$ship->speed--;
 		if ($data['move'] != 'forward')
 		{
-			if ($ship->last_move < $ship->movable)
+			if ($ship->last_move < $ship->getMovable())
 			{
 				echo json_encode(array("message" => "You can't turn so far\n"));
 				return (0);
@@ -196,7 +196,6 @@ class Player {
 	private function is_crashed($ship, $map)
 	{
 		$area = $this->get_area($ship, $map);
-		//print_r($area);
 		foreach ($area as $el)
 		{
 			if ($el[0] > $map->max_X || $el[1] > $map->max_Y

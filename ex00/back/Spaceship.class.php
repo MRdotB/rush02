@@ -5,20 +5,22 @@ class Spaceship {
 	use Doc;
 	private static $doc_path = 'back/Spaceship.doc.txt';
 
-	private $active = false;
 	public $id;
-	public $aim = 1;
 	private $size = [];
-	public $pos = [];
+	private $active = false;
 	private $basePP;
-	public $lives;
 	private $inertia = 0;
-	private $shield = 0;
+
+	public $aim = 1;
+	public $pos = [];
+	public $lives;
+	public $shield = 0;
 	public $gun = 0;
 	public $speed;
-	public $movable;
 	public $last_move;
-	public $max_lives;
+
+	private $movable;
+	private $max_lives;
 
 	public function __construct(array $kwargs) {
 		if (!isset($kwargs['id'])) {
@@ -46,25 +48,24 @@ class Spaceship {
 //public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }
 //public function __set($name, $value) { throw new Exception('You have to use instance.setAttr() !'); }
 
-public function getName() { return $this->name; }
+/*public function getName() { return $this->name; }
 public function getSize() { return $this->size; }
 public function getPosition() { return $this->position; }
 public function getPP() { return $this->currPP; }
 public function getLives() { return $this->lives; }
 public function getSpeed() { return $this->speed; }
 public function getInertia() { return $this->inertia; }
-public function getMovable() { return $this->movable; }
-public function getShield() { return $this->shield; }
-public function getSprite() { return $this->sprite; }
 
 public function shieldUp() { $this->shield++; }
 public function shieldDown() { if ($this->shield > 0) $this->shield--; }
 public function livesUp() { $this->lives++; }
 public function livesDown() { if ($this->lives > 0) $this->lives--; }
-
-
 public function active() { $this->active = true; }
 public function desactive() { $this->active = false; }
+ */
+
+public function getMovable() { return $this->movable; }
+public function getMax_Lives() { return $this->max_lives; }
 
 }
 ?>
