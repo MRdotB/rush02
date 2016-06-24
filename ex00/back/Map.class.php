@@ -28,7 +28,9 @@ class Map {
 				$this->space[$x][$y] = ".";
 			}
 		}
-		
+		$this->space[10][10] = 'X';
+		$this->space[20][20] = 'X';
+		$this->space[45][45] = 'X';
 	}
 
 //	public function __get($name) { throw new Exception('You have to use instance.getMap() !'); }

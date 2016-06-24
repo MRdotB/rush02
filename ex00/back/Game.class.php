@@ -21,7 +21,8 @@ class Game {
 	public $map;
 
 	public function __construct() {
-		$this->map = new Map(array('size' => [75, 50], 'max_X' => 74, 'max_Y' => 49, 'obstacles' => []));
+		$this->map = new Map(array('size' => [75, 50], 'max_X' => 74, 'max_Y' => 49,
+			'obstacles' => [[10, 10], [20, 20], [30, 30]]));
 		$ship_low = SpaceshipFactory::create('FatherOfDespair', 'a', [15, 15]);
 		$ship_up = SpaceshipFactory::create('FatherOfDespair', 'A', [30, 30]);
 		$this->player1 = new Player(array('name' => '1', 'ship' => $ship_low));

@@ -34,6 +34,8 @@ function renderMap (map) {
 				$cell.addClass('colorA');
 			} else if (map[x][y] == 'B') {
 				$cell.addClass('colorB');
+			} else if (map[x][y] == 'X') {
+				$cell.addClass('asteroid');
 			}
 			$tableRow.append($cell);
 		}
@@ -43,7 +45,6 @@ function renderMap (map) {
 
 function updateMap (map) {
 	getInfo();
-	//console.log(map);
 	console.log("Update.");
 	$cellGrid.find('td').removeClass('colorA colorB');
 	for (let x = 0; x < gridHeight; x++) {
@@ -52,6 +53,8 @@ function updateMap (map) {
 				$("#" + x + "-" + y).addClass('colorA');
 			} else if (map[x][y] == 'a') {
 				$("#" + x + "-" + y).addClass('colorB');
+			} else if (map[x][y] == 'X') {
+				$("#" + x + "-" + y).addClass('asteroid');
 			}
 		}
 	}
