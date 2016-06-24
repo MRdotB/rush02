@@ -23,6 +23,6 @@ $Player->Move($ship, $data, $map)
 
 $Player->Gun($ship, $map, $nemesis)
 
-Each function will return error codes that you can get in the Error.trait.php
+Each function will return 
 
 ------------------------------------------------------------------------->
