@@ -6,7 +6,7 @@ include_once('back/Game.class.php');
 include_once('back/Player.class.php');
 include_once('back/RollDice.trait.php');
 include_once('back/FatherOfDespair.class.php');
-include_once('back/Factory.class.php');
+include_once('back/SpaceshipFactory.class.php');
 
 class Game {
 	use Doc;
