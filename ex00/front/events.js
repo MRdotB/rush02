@@ -7,7 +7,12 @@ var orderCb = function(data) {
 }
 
 var moveCb = function(data) {
-	console.log(data);
+	console.log('moveCb', data);
+	if (data.error) {
+		alert(data.errorMsg);
+	} else {
+		updateMap(data.map);
+	}
 }
 
 $order.on('click', function (e) {
@@ -51,7 +56,7 @@ $moveActions.on('click', 'button', function (e) {
 	//console.log($(e.currentTarget).attr('id'));
 	var data = {
 		phase: "move",
-		action: $(e.currentTarget).attr('id')
+		move: $(e.currentTarget).attr('id')
 	};
 
 	$.ajax({

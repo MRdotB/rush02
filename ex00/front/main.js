@@ -42,29 +42,19 @@ function renderMap (map) {
 }
 
 function updateMap (map) {
+	console.log("Update.");
 	$cellGrid.find('td').removeClass('colorA colorB');
 	for (let x = 0; x < gridHeight; x++) {
 		for (let y = 0; y < gridWidth; y++) {
 			if (map[x][y] == 'A') {
 				$("#" + x + "-" + y).addClass('colorA');
-			} else if (map[x][y] == 'B') {
+			} else if (map[x][y] == 'a') {
 				$("#" + x + "-" + y).addClass('colorB');
 			}
 		}
 	}
 }
 
-console.log(map);
 var map = baseMap(gridWidth, gridHeight);
+console.log(map);
 renderMap(map);
-
-map[1][1] = 'A';
-map[1][2] = 'A';
-map[1][3] = 'A';
-
-map[73][48] = 'B';
-map[73][47] = 'B';
-map[73][46] = 'B';
-
-
-updateMap(map);
