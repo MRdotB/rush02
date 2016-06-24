@@ -8,7 +8,7 @@ class Map {
 
 	private $size;
 	private $obstacles = [];
-	private $space = [];
+	public $space = [];
 
 	public function __construct(array $kwargs) {
 		if (!isset($kwargs['size'])) {
@@ -27,8 +27,8 @@ class Map {
 		
 	}
 
-	public function __get($name) { throw new Exception('You have to use instance.getMap() !'); }
-	public function __set($name, $value) { throw new Exception('The attributes of Map Class is read only !'); }
+//	public function __get($name) { throw new Exception('You have to use instance.getMap() !'); }
+//	public function __set($name, $value) { throw new Exception('The attributes of Map Class is read only !'); }
 
 	public function getSize() { return $this->size; }
 	public function getSpace() { return $this->space; }
