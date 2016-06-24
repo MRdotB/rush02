@@ -70,9 +70,17 @@ class Player
 
 	public function move($ship, $data, $map)
 	{
+		$this->remove_ship($ship, $map);
+		if (!$ship->lives)
+		{
+			echo "Your ship does not exsit anymore\n";
+			return ;
+		}
 		if (!$ship->speed)
 		{
 			echo "passe phase suivante\n";
+			if ($ship->lives > 0)
+				$this->draw_ship($ship, $map);
 			return ;
 		}
 		$ship->speed--;
@@ -85,19 +93,20 @@ class Player
 			}
 			else
 			{
-				$this->remove_ship($ship, $map);
 				$this->turn($ship, $data['move']);
 				$ship->last_move = 0;
 			}
 		}
 		else
 		{
-			$this->remove_ship($ship, $map);
 			$this->forward($ship);
 			$ship->last_move++;
 		}
 		if ($this->is_crashed($ship, $map) == TRUE)
+		{
+			$ship->lives = 0;
 			echo "You crashed your ship\n";
+		}
 		else
 			$this->draw_ship($ship, $map);
 	}
@@ -128,7 +137,7 @@ class Player
 
 	public function draw_ship($ship, $map)
 	{//bonus = implementer un draw map pour tous types vaisseaux
-		print_r($ship->pos);
+		//print_r($ship->pos);
 		$map->space[$ship->pos[0]][$ship->pos[1]] = $ship->id;
 		if ($ship->aim % 2 == 0)
 		{
@@ -146,16 +155,16 @@ class Player
 	private function get_area($ship, $map)
 	{
 		$area = array();
-		array_push($area, [[$ship->pos[0]], [$ship->pos[1]]]);
+		array_push($area, array($ship->pos[0], $ship->pos[1]));
 		if ($ship->aim % 2 == 0)
 		{
-			array_push($area, [[$ship->pos[0]], [$ship->pos[1] - 1]]);
-			array_push($area, [[$ship->pos[0]], [$ship->pos[1] + 1]]);
+			array_push($area, array($ship->pos[0], $ship->pos[1] - 1));
+			array_push($area, array($ship->pos[0], $ship->pos[1] + 1));
 		}
 		else
 		{
-			array_push($area, [[$ship->pos[0] - 1], [$ship->pos[1]]]);
-			array_push($area, [[$ship->pos[0] + 1], [$ship->pos[1]]]);
+			array_push($area, array($ship->pos[0] - 1, $ship->pos[1]));
+			array_push($area, array($ship->pos[0] + 1, $ship->pos[1]));
 		}
 		return ($area);
 	}
@@ -163,11 +172,11 @@ class Player
 	private function is_crashed($ship, $map)
 	{
 		$area = $this->get_area($ship, $map);
-		print_r($area);
+		//print_r($area);
 		foreach ($area as $el)
 		{
-			if ($el[0] > $map->max_X || $el[1] > $map->max_y
-				|| $el[0] < 1 || $el[1] < 1 || $map->space[$el[0]][$el[1]] != '.')
+			if ($el[0] > $map->max_X || $el[1] > $map->max_Y
+				|| $el[0] < 0 || $el[1] < 0 || $map->space[$el[0]][$el[1]] != '.')
 				return TRUE;
 		}
 		return FALSE;

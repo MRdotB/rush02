@@ -26,6 +26,7 @@ class Game {
 			}
 			echo "\n";
 		}
+		echo "\n\n";
 	}
 }
 ?>

@@ -11,7 +11,7 @@ class Spaceship {
 	private $size = [];
 	public $pos = [];
 	private $basePP;
-	private $lives;
+	public $lives;
 	private $inertia = 0;
 	private $shield = 0;
 	public $gun = 0;
