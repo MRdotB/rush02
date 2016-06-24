@@ -1,7 +1,11 @@
 <?PHP
 
 include_once('RollDice.trait.php');
+include_once('doc.trait.php'); 
+
 class Player {
+	use Doc;
+	private static $doc_path = 'back/Player.doc.txt';
 	//map et pos sont put as [X][Y]
 
 	use RollDice;
