@@ -42,6 +42,8 @@ function renderMap (map) {
 }
 
 function updateMap (map) {
+	getInfo();
+	//console.log(map);
 	console.log("Update.");
 	$cellGrid.find('td').removeClass('colorA colorB');
 	for (let x = 0; x < gridHeight; x++) {

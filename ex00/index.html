@@ -15,13 +15,12 @@
 
     <div class="container">
     <div id="controls-container">
-      <h2>Player <span id="player"></span></h2>
+      <h2><span id="player"></span> vie: <span id="lives"></span> shield <span id="shield"></span></h2>
       <h2>Turn <span id="turn-number"></span></h2>
       <h2>Phase <span id="phase"></span></h2>
     <div>
       <div id="order">
         <h2>Order</h2>
-        <div>Vous avez <span id="pp-number">0</span> PP</div><br>
         <input id="ppAttack" type="number" name="quantity" value="0"> Attack<br>
         <input id="ppSpeed" type="number" name="quantity" value="0"> Speed<br>
         <input id="ppRepair" type="number" name="quantity" value="0"> Repair<br>
@@ -30,25 +29,22 @@
     </div>
       <div id="moveActions">
         <h2>Move</h2>
-        <div>Vous avez <span id="pp-number">0</span> points de deplacements.</div><br>
         <button id="forward">Avancer</button>
         <button id="right">Tourner a gauche</button>
         <button id="left">Tourner a droite</button>
+    </div>
+
+      <div id="fireAction">
+        <h2>Fire</h2>
+        <input id="fire" type="submit" value="Tirer">
     </div>
     <br>
     <br>
     <br>
     <button id="reset">Reset</button>
-    <!--
-      <div id="fire">
-        <h2>Fire</h2>
-        <div>Vous avez <span id="pp-number">0</span> points de charge.</div><br>
-        <input type="submit" value="Tirer">
-    </div>
-    -->
-
     </div>
       <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script src="front/call.js"></script>
       <script src="front/main.js"></script>
       <script src="front/events.js"></script>
     </body>

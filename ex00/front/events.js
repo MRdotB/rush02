@@ -1,15 +1,28 @@
 var $order = $('#submitOrder');
 var $reset = $('#reset');
+var $fire = $('#fire');
 var $moveActions = $('#moveActions');
 
 var orderCb = function(data) {
 	console.log(data);
 }
 
+var fireCb = function(data) {
+	console.log("fireCb", data);
+	if (data.messages) {
+		alert(data.messages);
+	} else if (data.message) {
+		alert(data.message);
+	}
+	if (data.map) {
+		updateMap(data.map);
+	}
+}
+
 var moveCb = function(data) {
 	console.log('moveCb', data);
-	if (data.error) {
-		alert(data.errorMsg);
+	if (data.message) {
+		alert(data.message);
 	} else {
 		updateMap(data.map);
 	}
@@ -81,5 +94,18 @@ $reset.on('click', function(e) {
 		},
 		dataType: 'json'
 	});
+});
 
+$fire.on('click', function(e) {
+	e.preventDefault();
+	var data = {
+		phase: "gun"
+	};
+	$.ajax({
+		type: "POST",
+		url: "game.php",
+		data: data,
+		success: fireCb,
+		dataType: 'json'
+	});
 });
