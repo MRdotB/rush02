@@ -7,7 +7,8 @@ class Game {
 	private static $doc_path = 'back/Game.doc.txt';
 
 	private $turn = 0;
-	private $players = [];
+	private $players_low;
+	private $players_up;
 	private $currentPlayer;
 	public $map;
 
