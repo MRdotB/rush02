@@ -202,7 +202,7 @@ class Player {
 			if ($el[0] > $map->max_X || $el[1] > $map->max_Y
 				|| $el[0] < 0 || $el[1] < 0 || $map->space[$el[0]][$el[1]] != '.'
 				|| ($el[0] == 10 && $el[1] == 10) || ($el[0] == 20 && $el[1] == 20)
-			|| ($el[0] == 30 && $el[1] == 30))
+			|| ($el[0] == 45 && $el[1] == 45))
 				return TRUE;
 		}
 		return FALSE;
