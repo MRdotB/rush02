@@ -1,19 +1,31 @@
 <?php
 
 include_once('doc.trait.php'); 
+include_once('back/Map.class.php');
+include_once('back/Game.class.php');
+include_once('back/Weapon.class.php');
+include_once('back/Crusader.class.php');
+include_once('back/Player.class.php');
+include_once('back/RollDice.trait.php');
+include_once('back/FatherOfDespair.class.php');
+include_once('back/Factory.class.php');
 
 class Game {
 	use Doc;
 	private static $doc_path = 'back/Game.doc.txt';
 
 	private $turn = 0;
-	private $players_low;
+	public $players_low;
 	private $players_up;
 	private $currentPlayer;
 	public $map;
 
-	public function __construct(array $kwargs) {
-		$this->map = $kwargs['map'];
+	public function __construct() {
+		$this->map = new Map(array('size' => [75, 50], 'max_X' => 74, 'max_Y' => 49, 'obstacles' => []));
+		$ship_low = SpaceshipFactory::create('FatherOfDespair', 'a', [5, 5]);
+		$ship_up = SpaceshipFactory::create('FatherOfDespair', 'A', [50, 50]);
+		$this->players_low = new Player(array('name' => '1', 'ship' => $ship_low));
+		$this->players_up = new Player(array('name' => '2', 'ship' => $ship_up));
 	}
 
 //	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }

@@ -21,7 +21,7 @@ class Spaceship {
 
 	public function __construct(array $kwargs) {
 		if (!isset($kwargs['id'])) {
-			throw new Exception('Class Spaceship missing $kwargs["name"].');
+			throw new Exception('Class Spaceship missing $kwargs["id"].');
 		} else if (!isset($kwargs['size'])) {
 			throw new Exception('Class Spaceship missing $kwargs["size"].');
 		} else if (!isset($kwargs['pos'])) {

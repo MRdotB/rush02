@@ -6,6 +6,11 @@ class Player
 {//map et pos sont put as [X][Y]
 	public $name;
 	public $ship;
+	function __construct($kwargs)
+	{
+		$this->name = $kwargs['name'];
+		$this->ship = $kwargs['ship'];
+	}
 	//	public $armada = array(); BONUS
 
 	use RollDice;
