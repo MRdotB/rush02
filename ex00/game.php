@@ -3,6 +3,7 @@ session_start();
 if (!$_SESSION['game']) {
 	$_SESSION['game'] = $game;
 }
+
 include_once('back/Game.class.php'); 
 include_once('back/Map.class.php'); 
 include_once('back/Weapon.class.php'); 
@@ -10,7 +11,10 @@ include_once('back/FatherOfDespair.class.php');
 include_once('back/Router.class.php'); 
 
 Router::listenPost(function ($data) {
-	print_r($data);
+	if ($data["phase"] == "move") {
+
+	}
+	else if ($data["phase"] == "order")
 });
 
 // Map tests
