@@ -15,17 +15,17 @@ class Game {
 	private static $doc_path = 'back/Game.doc.txt';
 
 	private $turn = 0;
-	public $players_low;
-	private $players_up;
+	public $player1;
+	public $player2;
 	private $currentPlayer;
 	public $map;
 
 	public function __construct() {
 		$this->map = new Map(array('size' => [75, 50], 'max_X' => 74, 'max_Y' => 49, 'obstacles' => []));
 		$ship_low = SpaceshipFactory::create('FatherOfDespair', 'a', [15, 15]);
-		$ship_up = SpaceshipFactory::create('FatherOfDespair', 'A', [50, 50]);
-		$this->players_low = new Player(array('name' => '1', 'ship' => $ship_low));
-		$this->players_up = new Player(array('name' => '2', 'ship' => $ship_up));
+		$ship_up = SpaceshipFactory::create('FatherOfDespair', 'A', [30, 30]);
+		$this->player1 = new Player(array('name' => '1', 'ship' => $ship_low));
+		$this->player2 = new Player(array('name' => '2', 'ship' => $ship_up));
 	}
 
 //	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }

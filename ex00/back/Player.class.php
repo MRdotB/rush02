@@ -1,62 +1,74 @@
 <?PHP
 
-include_once('back/RollDice.trait.php');
+include_once('RollDice.trait.php');
+class Player {
+	//map et pos sont put as [X][Y]
 
-class Player
-{//map et pos sont put as [X][Y]
+	use RollDice;
+
 	public $name;
 	public $ship;
+
 	function __construct($kwargs)
 	{
 		$this->name = $kwargs['name'];
 		$this->ship = $kwargs['ship'];
 	}
-	//	public $armada = array(); BONUS
 
-	use RollDice;
 
 	public function gun($ship, $map, $nemesis)//prend armada ennemie normalement
 	{
-		if ($this->hay_target($ship, $map, $nemesis) == NULL);//get target name normaly
+		$msg = array();
+		if (!$ship->gun)
 		{
-			echo ("You can't reach anything, you lose your PP stupidly\n");
+			echo json_encode(array("message" => "You don't havy any ammo left, reload comrade !\n"));
+			return ;
+		}
+		if (($this->hay_target($ship, $map->space, $nemesis) != 1))//get target name normaly
+		{
+			echo json_encode(array("message" => "You can't reach anything, you lose your PP stupidly\n"));
 			return ;
 		}
 		while ($ship->gun)
 		{
-			$shoot = RollDice();
-			echo "You throw a dice and obtain $shoot\n";
+			$shoot = $this->RollDice();
+			array_push($msg, "You throw a dice and obtain $shoot\n");
 			if ($shoot >= 4)
 			{
-				echo "You harm you nemesis ! Keep going !\n";
+				array_push($msg,  "You harm you nemesis ! Keep going !\n");
 				$nemesis->ship->shield ? $nemesis->ship->shield-- : $nemesis->ship->lives--;
 				if ($shoot == 6)
+				{
 					$nemesis->ship->lives--;
+					array_push($msg, "Critical strike ! Well played captain!\n");
+				}
 			}
-			else
-				echo "You miss. Fear the upcoming revenge of your nemesis's Armada\n";
-			if ($nemesis->ship->lives = 0)
+			if ($nemesis->ship->lives <= 0)
 				$this->remove_ship($nemesis->ship, $map);
 			$ship->gun--;
 		}
+		echo json_encode(array("map" => $map->space,'messages' => $msg));
 	}
 
 	private function hay_target($ship, $map, $nemesis)
 	{
+		$positions = array();
 		$back = $ship->pos;
 		$range = 5;//peut etre variable du coup
 		while ($range)
 		{
-			$this->forward($ship->pos, $ship->aim);
-			if ($map[$ship->pos[0]][$ship->pos[1]] == $nemesis->ship->id)//enemy name
+			array_push($positions, $ship->pos);
+			$this->forward($ship);
+			echo $map[$ship->pos[0][$ship->pos[1]]];
+			if ($map[$ship->pos[0]][$ship->pos[1]] != '.')
 			{
 				$ship->pos = $back;
-				return ($nemesis->ship->id);
+				return (1);
 			}
 			$range--;
 		}
 		$ship->pos = $back;
-		return (NULL);
+		return (0);
 	}
 
 	public function give($ship, $data) //instance de class Spaceship + data web
@@ -67,7 +79,7 @@ class Player
 		$repair = $data['repair'];
 		while ($repair)
 		{
-			if (RollDice() == 6 && $ship->lives < $ship->max_lives)
+			if ($this->RollDice() == 6 && $ship->lives < $ship->max_lives)
 				$ship->lives++;
 			$repair--;
 		}
@@ -78,23 +90,23 @@ class Player
 		$this->remove_ship($ship, $map);
 		if (!$ship->lives)
 		{
-			echo "Your ship does not exsit anymore\n";
-			return ;
+			echo json_encode(array("message" => "Your ship does not exsit anymore\n"));
+			return (0);
 		}
 		if (!$ship->speed)
 		{
-			echo "passe phase suivante\n";
+			echo json_encode(array("message" => "passe phase suivante\n"));
 			if ($ship->lives > 0)
 				$this->draw_ship($ship, $map);
-			return ;
+			return (0);
 		}
 		$ship->speed--;
 		if ($data['move'] != 'forward')
 		{
 			if ($ship->last_move < $ship->movable)
 			{
-				echo "You can't turn so far\n";
-				return ;
+				echo json_encode(array("message" => "You can't turn so far\n"));
+				return (0);
 			}
 			else
 			{
@@ -110,10 +122,14 @@ class Player
 		if ($this->is_crashed($ship, $map) == TRUE)
 		{
 			$ship->lives = 0;
-			echo "You crashed your ship\n";
+			echo json_encode(array("message" => "You crashed your ship\n"));
+			return (0);
 		}
 		else
+		{
 			$this->draw_ship($ship, $map);
+			return (1);
+		}
 	}
 
 	public function turn($ship, $where)
@@ -142,7 +158,6 @@ class Player
 
 	public function draw_ship($ship, $map)
 	{//bonus = implementer un draw map pour tous types vaisseaux
-		//print_r($ship->pos);
 		$map->space[$ship->pos[0]][$ship->pos[1]] = $ship->id;
 		if ($ship->aim % 2 == 0)
 		{

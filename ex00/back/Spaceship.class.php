@@ -18,6 +18,7 @@ class Spaceship {
 	public $speed;
 	public $movable;
 	public $last_move;
+	public $max_lives;
 
 	public function __construct(array $kwargs) {
 		if (!isset($kwargs['id'])) {
@@ -39,6 +40,7 @@ class Spaceship {
 	$this->basePP = $kwargs['pp'];
 	$this->movable = $kwargs['movable'];
 	$this->last_move = $this->movable;
+	$this->max_lives = $this->lives;
 }
 
 //public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }
