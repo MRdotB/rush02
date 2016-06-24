@@ -7,6 +7,8 @@ class Map {
 	private static $doc_path = 'back/Map.doc.txt';
 
 	private $size;
+	public $max_X;
+	public $max_Y;
 	private $obstacles = [];
 	public $space = [];
 
@@ -18,6 +20,8 @@ class Map {
 		}
 
 		$this->size = $kwargs['size'];
+		$this->max_X = $kwargs['max_X'];
+		$this->max_Y = $kwargs['max_Y'];
 		$this->obstacles = $kwargs['obstacles'];
 		for ($y = 0; $y < $kwargs['size'][1]; $y++) {
 			for ($x = 0; $x < $kwargs['size'][0]; $x++) {

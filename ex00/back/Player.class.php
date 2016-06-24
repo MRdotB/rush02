@@ -6,33 +6,47 @@ class Player
 {//map et pos sont put as [X][Y]
 	public $name;
 	public $ship;
-//	public $armada = array(); BONUS
+	//	public $armada = array(); BONUS
 
 	use RollDice;
 
-	public function gun($ship, $map, $nemesis)//peut prend armada ennemie normalement
+	public function gun($ship, $map, $nemesis)//prend armada ennemie normalement
 	{
-		if ($this->hay_target($ship, $map) == NULL);//get target name normaly
-			return ("You can't reach anything, you lose your PP stupidly\n");
+		if ($this->hay_target($ship, $map, $nemesis) == NULL);//get target name normaly
+		{
+			echo ("You can't reach anything, you lose your PP stupidly\n");
+			return ;
+		}
 		while ($ship->gun)
 		{
-			if (RollDice() >= 4)
-				$nemesis->ship->lives--;
+			$shoot = RollDice();
+			echo "You throw a dice and obtain $shoot\n";
+			if ($shoot >= 4)
+			{
+				echo "You harm you nemesis ! Keep going !\n";
+				$nemesis->ship->shield ? $nemesis->ship->shield-- : $nemesis->ship->lives--;
+				if ($shoot == 6)
+					$nemesis->ship->lives--;
+			}
+			else
+				echo "You miss. Fear the upcoming revenge of your nemesis's Armada\n";
+			if ($nemesis->ship->lives = 0)
+				$this->remove_ship($nemesis->ship, $map);
 			$ship->gun--;
 		}
 	}
 
-	private function hay_target($ship, $map)
+	private function hay_target($ship, $map, $nemesis)
 	{
 		$back = $ship->pos;
 		$range = 5;//peut etre variable du coup
 		while ($range)
 		{
 			$this->forward($ship->pos, $ship->aim);
-			if ($map[$ship->pos[0]][$ship->pos[1]] == 'a')//enemy name
+			if ($map[$ship->pos[0]][$ship->pos[1]] == $nemesis->ship->id)//enemy name
 			{
 				$ship->pos = $back;
-				return ('a');
+				return ($nemesis->ship->id);
 			}
 			$range--;
 		}
@@ -42,7 +56,7 @@ class Player
 
 	public function give($ship, $data) //instance de class Spaceship + data web
 	{
-		$ship->shield = $data['shield'];
+		$ship->shield = $data['shield'];//HOW INFO FROM HTML IS FORMATED
 		$ship->gun = $data['gun'];
 		$ship->speed = $data['speed'];
 		$repair = $data['repair'];
@@ -64,7 +78,7 @@ class Player
 		$ship->speed--;
 		if ($data['move'] != 'forward')
 		{
-		   	if ($ship->last_move < $ship->movable)
+			if ($ship->last_move < $ship->movable)
 			{
 				echo "You can't turn so far\n";
 				return ;
@@ -82,7 +96,10 @@ class Player
 			$this->forward($ship);
 			$ship->last_move++;
 		}
-		$this->draw_ship($ship, $map);
+		if ($this->is_crashed($ship, $map) == TRUE)
+			echo "You crashed your ship\n";
+		else
+			$this->draw_ship($ship, $map);
 	}
 
 	public function turn($ship, $where)
@@ -124,6 +141,35 @@ class Player
 			$map->space[$ship->pos[0] + 1][$ship->pos[1]] = $ship->id;
 		}
 		return ($map);
+	}
+
+	private function get_area($ship, $map)
+	{
+		$area = array();
+		$area[] = $map[$ship->pos[0]][$ship->pos[1]];
+		if ($ship->aim % 2 == 0)
+		{
+			$area[] = $map->space[$ship->pos[0]][$ship->pos[1] - 1];//id = LETTRE
+			$area[] = $map->space[$ship->pos[0]][$ship->pos[1] + 1];
+		}
+		else
+		{
+			$area[] = $map->space[$ship->pos[0] - 1][$ship->pos[1]];//id = LETTRE
+			$area[] = $map->space[$ship->pos[0] + 1][$ship->pos[1]];
+		}
+		return ($area);
+	}
+
+	private function is_crashed($ship, $map)
+	{
+		$area = get_area($ship, $map);
+		foreach ($area as $el)
+		{
+			$case = $map->space[$el[0]][$el[1]]
+			if ($case != '.' || $case[0] > $map->max_X || $case[1] > $map->max_y)
+				return TRUE;
+		}
+		return FALSE;
 	}
 
 	public function forward($ship)

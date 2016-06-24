@@ -8,7 +8,7 @@ include_once('back/RollDice.trait.php');
 include_once('back/FatherOfDespair.class.php'); 
 
 // Map tests
-$map = new Map(array('size' => [75, 50], 'obstacles' => []));
+$map = new Map(array('size' => [75, 50], 'max_X' => 75, 'max_Y' => 50, 'obstacles' => []));
 //print(Map::doc());
 //print_r($map->getMap());
 // Spaceship
@@ -16,20 +16,24 @@ $map = new Map(array('size' => [75, 50], 'obstacles' => []));
 // Game tests
 $game = new Game(array('map' => $map));
 
-$game->displayMap($map);
-
 $sorrwo_boy = new FatherOfDespair('A', [4, 35]);
+$enemy = new FatherOfDespair('a', [12, 5]);
 echo "father exists\n";
+
+
 $player = new Player(array('name' => 'sorrow_boy', 'ship' => $sorrwo_boy));
+
 $player->draw_ship($sorrwo_boy, $map);
 $game->displayMap($map);
+
 $sorrwo_boy->speed = 5;
-$move = array('move' => 'forward');
-$player->move($sorrwo_boy, $move, $map);
-$player->move($sorrwo_boy, $move, $map);
-$player->move($sorrwo_boy, $move, $map);
-$player->move($sorrwo_boy, $move, $map);
-$player->move($sorrwo_boy, $move, $map);
+
+$player->move($sorrwo_boy, array('move' => 'left'), $map);
+$player->move($sorrwo_boy, array('move' => 'forward'), $map);
+$player->move($sorrwo_boy, array('move' => 'forward'), $map);
+$player->move($sorrwo_boy, array('move' => 'forward'), $map);
+$player->move($sorrwo_boy, array('move' => 'forward'), $map);
+$player->move($sorrwo_boy, array('move' => 'forward'), $map);
 $game->displayMap($map);
 $move = array('move' => 'left');
 $player->move($sorrwo_boy, $move, $map);
