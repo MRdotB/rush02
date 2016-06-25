@@ -34,7 +34,7 @@ class Player {
 			echo json_encode(array("message" => "You don't havy any ammo left, reload comrade !\n"));
 			return ;
 		}
-		if (($this->hay_target($ship, $map->space, $nemesis) != 1))   //recup target id normaly
+		if ($rank = ($this->hay_target($ship, $map->space, $nemesis) === FALSE))   //recup target id normaly
 		{
 			echo json_encode(array("message" => "You can't reach anything, you lose your PP stupidly\n"));
 			return ;
@@ -42,19 +42,19 @@ class Player {
 		while ($ship->gun)
 		{
 			$shoot = $this->RollDice();
-			array_push($msg, "You throw a dice and obtain $shoot\n");
+			array_push($msg, "You throw a dice and obtain $shoot, try to kill ".$nemesis->armada[$rank]->id."\n");
 			if ($shoot >= 4)
 			{
 				array_push($msg,  "You harm you nemesis ! Keep going !\n");
-				$nemesis->ship->shield ? $nemesis->ship->shield-- : $nemesis->ship->lives--;
+				$nemesis->armada[$rank]->shield ? $nemesis->armada[$rank]->shield-- : $nemesis->armada[$rank]->lives--;
 				if ($shoot == 6)
 				{
-					$nemesis->ship->lives--;
+					$nemesis->armada[$rank]->lives--;
 					array_push($msg, "Critical strike ! Well played captain!\n");
 				}
 			}
-			if ($nemesis->ship->lives <= 0)
-				$this->remove_ship($nemesis->ship, $map);
+			if ($nemesis->armada[$rank]->lives <= 0)
+				$this->remove_ship($nemesis->armada[$rank], $map);
 			$ship->gun--;
 		}
 		echo json_encode(array("map" => $map->space,'messages' => $msg));
@@ -64,21 +64,29 @@ class Player {
 	{
 		$positions = array();
 		$back = $ship->pos;
-		$range = 5;           //peut etre variable du coup
+		$range = $ship->getRange();           //peut etre variable du coup
 		while ($range)
 		{
-			array_push($positions, $ship->pos);
 			$this->forward($ship);
-			echo $map[$ship->pos[0][$ship->pos[1]]];
-			if ($map[$ship->pos[0]][$ship->pos[1]] != '.')
+			array_push($positions, $ship->pos);
+			if ($map[$ship->pos[0]][$ship->pos[1]] != '.' && $map[$ship->pos[0]][$ship->pos[1]] != $ship->id[0])
 			{
-				$ship->pos = $back;
-				return (1);
+				$rank = 0;
+				while ($nemesis->armada[$rank])
+				{
+					if ($map[$ship->pos[0]][$ship->pos[1]] == $nemesis->armada[$rank]->id[0]) //2 chars ??
+					{
+
+						$ship->pos = $back;
+						return ($rank);
+					}
+					$rank++;
+				}
 			}
 			$range--;
 		}
 		$ship->pos = $back;
-		return (0);
+		return (FALSE);
 	}
 
 	public function give($ship, $data)
