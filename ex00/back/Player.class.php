@@ -6,21 +6,27 @@ include_once('doc.trait.php');
 class Player {
 	use Doc;
 	private static $doc_path = 'back/Player.doc.txt';
+
 	//map et pos sont put as [X][Y]
 
 	use RollDice;
 
 	private $name;
 	public $ship;
+	public $armada = array();
 
 	function __construct($kwargs)
 	{
 		$this->name = $kwargs['name'];
+		$this->armada = $kwargs['armada'];
 		$this->ship = $kwargs['ship'];
+
+		//this->ship should not be fixed as no one is activated yet
 	}
 
 
-	public function gun($ship, $map, $nemesis)//prend armada ennemie normalement
+
+	public function gun($ship, $map, $nemesis)     //prend armada ennemie normalement
 	{
 		$msg = array();
 		if (!$ship->gun)
@@ -28,7 +34,7 @@ class Player {
 			echo json_encode(array("message" => "You don't havy any ammo left, reload comrade !\n"));
 			return ;
 		}
-		if (($this->hay_target($ship, $map->space, $nemesis) != 1))//get target name normaly
+		if (($this->hay_target($ship, $map->space, $nemesis) != 1))   //recup target id normaly
 		{
 			echo json_encode(array("message" => "You can't reach anything, you lose your PP stupidly\n"));
 			return ;
@@ -58,7 +64,7 @@ class Player {
 	{
 		$positions = array();
 		$back = $ship->pos;
-		$range = 5;//peut etre variable du coup
+		$range = 5;           //peut etre variable du coup
 		while ($range)
 		{
 			array_push($positions, $ship->pos);
@@ -75,9 +81,9 @@ class Player {
 		return (0);
 	}
 
-	public function give($ship, $data) //instance de class Spaceship + data web
+	public function give($ship, $data)
 	{
-		$ship->shield = $data['shield'];//HOW INFO FROM HTML IS FORMATED
+		$ship->shield = $data['shield'];
 		$ship->gun = $data['gun'];
 		$ship->speed = $data['speed'];
 		$repair = $data['repair'];
@@ -136,7 +142,7 @@ class Player {
 		}
 	}
 
-	public function turn($ship, $where)
+	private function turn($ship, $where)
 	{
 		if ($where === 'left')
 			$ship->aim == 1 ? $ship->aim = 4 : $ship->aim--;
@@ -144,34 +150,22 @@ class Player {
 			$ship->aim == 4 ? $ship->aim = 1 : $ship->aim++;
 	}
 
-	public function remove_ship($ship, $map)
+	private function remove_ship($ship, $map)
 	{
-		$map->space[$ship->pos[0]][$ship->pos[1]] = ".";
-		if ($ship->aim % 2 == 0)
+		$area = $this->get_area($ship, $map);
+		foreach ($area as $el)
 		{
-			$map->space[$ship->pos[0]][$ship->pos[1] - 1] = ".";//id = LETTRE
-			$map->space[$ship->pos[0]][$ship->pos[1] + 1] = ".";
-		}
-		else
-		{
-			$map->space[$ship->pos[0] - 1][$ship->pos[1]] = ".";//id = LETTRE
-			$map->space[$ship->pos[0] + 1][$ship->pos[1]] = ".";
+			$map->space[$el[0]][$el[1]] = ".";
 		}
 		return ($map);
 	}
 
 	public function draw_ship($ship, $map)
-	{//bonus = implementer un draw map pour tous types vaisseaux
-		$map->space[$ship->pos[0]][$ship->pos[1]] = $ship->id;
-		if ($ship->aim % 2 == 0)
+	{
+		$area = $this->get_area($ship, $map);
+		foreach ($area as $el)
 		{
-			$map->space[$ship->pos[0]][$ship->pos[1] - 1] = $ship->id;//id = LETTRE
-			$map->space[$ship->pos[0]][$ship->pos[1] + 1] = $ship->id;
-		}
-		else
-		{
-			$map->space[$ship->pos[0] - 1][$ship->pos[1]] = $ship->id;//id = LETTRE
-			$map->space[$ship->pos[0] + 1][$ship->pos[1]] = $ship->id;
+			$map->space[$el[0]][$el[1]] = $ship->id;
 		}
 		return ($map);
 	}
@@ -179,16 +173,25 @@ class Player {
 	private function get_area($ship, $map)
 	{
 		$area = array();
-		array_push($area, array($ship->pos[0], $ship->pos[1]));
+		$X_gap = $ship->getGap_x();
+		$Y_gap = $ship->getGap_y();
 		if ($ship->aim % 2 == 0)
 		{
-			array_push($area, array($ship->pos[0], $ship->pos[1] - 1));
-			array_push($area, array($ship->pos[0], $ship->pos[1] + 1));
+			$X_gap = $ship->getGap_y();
+			$Y_gap = $ship->getGap_x();
 		}
-		else
+		$cur_x = $ship->pos[0] - $X_gap; //position coin haut gauche
+		$cur_y = $ship->pos[1] - $Y_gap;
+		while (($cur_y != $ship->pos[1] + $Y_gap + 1))
 		{
-			array_push($area, array($ship->pos[0] - 1, $ship->pos[1]));
-			array_push($area, array($ship->pos[0] + 1, $ship->pos[1]));
+			array_push($area, array($cur_x, $cur_y));
+			if ($cur_x == $ship->pos[0] + $X_gap)
+			{
+				$cur_y++;
+				$cur_x = $ship->pos[0] - $X_gap;
+			}
+			else
+				$cur_x++;
 		}
 		return ($area);
 	}
@@ -201,13 +204,14 @@ class Player {
 			if ($el[0] > $map->max_X || $el[1] > $map->max_Y
 				|| $el[0] < 0 || $el[1] < 0 || $map->space[$el[0]][$el[1]] != '.'
 				|| ($el[0] == 10 && $el[1] == 10) || ($el[0] == 20 && $el[1] == 20)
-			|| ($el[0] == 45 && $el[1] == 45))
+				|| ($el[0] == 45 && $el[1] == 45))
 				return TRUE;
+			//pour faire + propre, faire un in_array de tous les $el avec les obstacles
 		}
 		return FALSE;
 	}
 
-	public function forward($ship)
+	private function forward($ship)
 	{
 		if ($ship->aim == 1)
 			($ship->pos[1]--);

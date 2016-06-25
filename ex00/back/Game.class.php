@@ -18,13 +18,29 @@ class Game {
 	private $currentPlayer;
 	public $map;
 
+	function get_ship_rank($player)
+	{
+		$rank = 0;
+		foreach ($this->$player->armada as $elem)
+		{
+			$rank++;
+			if ($elem->active == true)
+				return ($rank);
+		}
+		return (FALSE);
+	}
+
 	public function __construct() {
 		$this->map = new Map(array('size' => [75, 50], 'max_X' => 74, 'max_Y' => 49,
 			'obstacles' => [[10, 10], [20, 20], [45, 45]]));
-		$ship_low = SpaceshipFactory::create('FatherOfDespair', 'a', [15, 15]);
-		$ship_up = SpaceshipFactory::create('FatherOfDespair', 'A', [30, 30]);
-		$this->player1 = new Player(array('name' => '1', 'ship' => $ship_low));
-		$this->player2 = new Player(array('name' => '2', 'ship' => $ship_up));
+		$ship1 = SpaceshipFactory::create('FatherOfDespair', 'a', [15, 15]);
+		$ship2 = SpaceshipFactory::create('FatherOfDespair', 'A', [30, 30]);
+		$armada1 = array($ship1);
+		$armada2 = array($ship2);
+		$this->player1 = new Player(array('name' => '1', 'ship' => $ship1, 'armada' => $armada1));
+		$this->player2 = new Player(array('name' => '2', 'ship' => $ship2, 'armada' => $armada2));
+//		$this->player1->armada[0]->active();
+//		$this->player2->armada[0]->active();
 	}
 
 //	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }

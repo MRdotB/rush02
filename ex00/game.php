@@ -4,7 +4,6 @@ include_once('back/Game.class.php');
 include_once('back/Player.class.php'); 
 include_once('back/FatherOfDespair.class.php'); 
 include_once('back/Router.class.php'); 
-include_once('back/talk.trait.php');
 
 session_start();
 
@@ -17,6 +16,12 @@ if (!$_SESSION['game'])  {
 	$_SESSION['currPlayer'] = 'player1';
 }
 
+//
+//				IMPORTANT METTRE DES $SHIP_RANK = GET_SHIP_RANK
+//					A CHAQUE PHASE POUR LES APPELS AVEC SHIP PLIZ
+//						ET REMPLACER TOUS LES SHIP PAR DES ARMADA[$SHIP_RANK]
+//
+
 Router::listenPost(function ($data) {
 	$res = [];
 	$game = $_SESSION['game'];
@@ -26,16 +31,15 @@ Router::listenPost(function ($data) {
 		echo json_encode(array("success" => "clean"));
 	}
 	else if ($data["phase"] == "order") {
-		$game->$player->give($game->$player->ship, $data);
-		print_r($game->$player->ship);
+		$game->$player->give($game->$player->armada[0], $data);
 	}
 	else if ($data["phase"] == "move") {
 		if ($data["move"] == "forward") {
-			$r = $game->$player->move($game->$player->ship, array('move' => 'forward'), $game->map);
+			$r = $game->$player->move($game->$player->armada[0], array('move' => 'forward'), $game->map);
 		} else if ($data["move"] == "right") {
-			$r = $game->$player->move($game->$player->ship, array('move' => 'right'), $game->map);
+			$r = $game->$player->move($game->$player->armada[0], array('move' => 'right'), $game->map);
 		} else if ($data["move"] == "left") {
-			$r = $game->$player->move($game->$player->ship, array('move' => 'left'), $game->map);
+			$r = $game->$player->move($game->$player->armada[0], array('move' => 'left'), $game->map);
 		}
 		if ($r) {
 			$res["map"] = $game->map->getSpace();
@@ -44,16 +48,27 @@ Router::listenPost(function ($data) {
 	} else if ($data["phase"] == "gun") {
 
 		$player == 'player1' ? $nemesis = 'player2' : $nemesis = 'player1';
-		$game->$player->gun($game->$player->ship, $game->map, $game->$nemesis);
+		$game->$player->gun($game->$player->armada[0], $game->map, $game->$nemesis);
 		$_SESSION['currPlayer'] = $nemesis;
 		$game->tour++;
 	} else if ($data["phase"] == "info") {
 		$info = [];
 		$info["player"] = $player;
-		$info["lives"] = $game->$player->ship->lives;
-		$info["shield"] = $game->$player->ship->shield;
+		$info["lives"] = $game->$player->armada[0]->lives;
+		$info["shield"] = $game->$player->armada[0]->shield;
 		echo json_encode($info);
 	}
 })
 
+/*		if ($game->$player->armada[$ship_rank + 1])
+		{
+			$game->$player->armada[$ship_rank]->desactive();
+			$game->$player->armada[$ship_rank + 1]->active();
+		}
+		else
+		{
+			$game->$player->armada[$ship_rank]->desactive();
+			$game->$player->armada[0]->active();
+			$_SESSION['currPlayer'] = $nemesis;
+}*/
 ?>
