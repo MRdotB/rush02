@@ -30,7 +30,7 @@ function renderMap (map) {
 				}
 			}
 			$cell.attr('id', x + '-' + y);
-			if (map[x][y] == 'A') {
+			if (map[x][y] > 'A') {
 				$cell.addClass('colorA');
 			} else if (map[x][y] == 'B') {
 				$cell.addClass('colorB');
@@ -49,9 +49,9 @@ function updateMap (map) {
 	$cellGrid.find('td').removeClass('colorA colorB');
 	for (let x = 0; x < gridHeight; x++) {
 		for (let y = 0; y < gridWidth; y++) {
-			if (map[x][y] == 'A') {
+			if (map[x][y] >= 'A' && map[x][y] <= 'Z') {
 				$("#" + x + "-" + y).addClass('colorA');
-			} else if (map[x][y] == 'a') {
+			} else if (map[x][y] >= 'a' && map[x][y] <= 'z') {
 				$("#" + x + "-" + y).addClass('colorB');
 			} else if (map[x][y] == 'X') {
 				$("#" + x + "-" + y).addClass('asteroid');
