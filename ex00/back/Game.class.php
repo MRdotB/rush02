@@ -6,6 +6,7 @@ include_once('back/Game.class.php');
 include_once('back/Player.class.php');
 include_once('back/RollDice.trait.php');
 include_once('back/FatherOfDespair.class.php');
+include_once('back/SorrowBoy.class.php');
 include_once('back/SpaceshipFactory.class.php');
 
 class Game {
@@ -35,10 +36,12 @@ class Game {
 			'obstacles' => [[10, 10], [20, 20], [45, 45]]));
 		$ship1 = SpaceshipFactory::create('FatherOfDespair', 'a', [15, 15]);
 		$ship2 = SpaceshipFactory::create('FatherOfDespair', 'A', [30, 30]);
-		$ship3 = SpaceshipFactory::create('FatherOfDespair', 'b', [40, 10]);
-		$ship4 = SpaceshipFactory::create('FatherOfDespair', 'B', [10, 40]);
-		$armada1 = array($ship1, $ship3);
-		$armada2 = array($ship2, $ship4);
+		$ship3 = SpaceshipFactory::create('SorrowBoy', 'b', [40, 10]);
+		$ship4 = SpaceshipFactory::create('SorrowBoy', 'B', [10, 40]);
+		$ship5 = SpaceshipFactory::create('SorrowBoy', 'c', [50, 10]);
+		$ship6 = SpaceshipFactory::create('SorrowBoy', 'C', [10, 45]);
+		$armada1 = array($ship1, $ship3, $ship5);
+		$armada2 = array($ship2, $ship4, $ship6);
 		$this->player1 = new Player(array('name' => '1', 'ship' => $ship1, 'armada' => $armada1));
 		$this->player2 = new Player(array('name' => '2', 'ship' => $ship2, 'armada' => $armada2));
 		$this->player1->armada[0]->active();

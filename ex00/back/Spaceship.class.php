@@ -19,6 +19,7 @@ class Spaceship {
 	public $last_move;
 
 	private $movable;
+	private $range;
 	private $gap_x;
 	private $gap_y;
 	private $max_lives;
@@ -37,11 +38,14 @@ class Spaceship {
 			throw new Exception('Class Spaceship missing $kwargs["gap_x"].');
 		} else if (!isset($kwargs['gap_y'])) {
 			throw new Exception('Class Spaceship missing $kwargs["gap_y"].');
+		} else if (!isset($kwargs['range'])) {
+			throw new Exception('Class Spaceship missing $kwargs["range"].');
 		} else if (!isset($kwargs['movable'])) {
 			throw new Exception('Class Spaceship missing $kwargs["movable"].');
 		}
 
 	$this->id = $kwargs['id'];
+	$this->range = $kwargs['range'];
 	$this->gap_x = $kwargs['gap_x'];
 	$this->gap_y = $kwargs['gap_y'];
 	$this->pos= $kwargs['pos'];
@@ -76,6 +80,7 @@ public function desactive() { $this->active = false; }
  
 
 public function getMovable() { return $this->movable; }
+public function getRange() { return $this->range; }
 public function getGap_x() { return $this->gap_x; }
 public function getGap_y() { return $this->gap_y; }
 public function getMax_Lives() { return $this->max_lives; }

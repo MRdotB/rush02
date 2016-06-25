@@ -12,8 +12,10 @@ if (!$_SESSION['game'])  {
 	$game = new Game();
 	$game->player1->draw_ship($game->player1->armada[0], $game->map);
 	$game->player1->draw_ship($game->player1->armada[1], $game->map);
+	$game->player1->draw_ship($game->player1->armada[2], $game->map);
 	$game->player2->draw_ship($game->player2->armada[0], $game->map);
 	$game->player2->draw_ship($game->player2->armada[1], $game->map);
+	$game->player2->draw_ship($game->player2->armada[2], $game->map);
 	$_SESSION['game'] = $game;
 	$_SESSION['currPlayer'] = 'player1';
 }
@@ -52,10 +54,8 @@ Router::listenPost(function ($data) {
 	} else if ($data["phase"] == "gun") {
 		$player == 'player1' ? $nemesis = 'player2' : $nemesis = 'player1';
 		$game->$player->gun($game->$player->armada[$sh_rank], $game->map, $game->$nemesis);
-		//$_SESSION['currPlayer'] = $nemesis;
 		if ($game->$player->armada[$sh_rank + 1])
 		{
-			echo "NE DOIT PAS RENTRER ICI NORMALEMENT\n";
 			$game->$player->armada[$sh_rank]->desactive();
 			$game->$player->armada[$sh_rank + 1]->active();
 		}

@@ -9,8 +9,8 @@ class FatherOfDespair extends Spaceship {
 	public function __construct($id, $position) {
 		parent::__construct(array(
 			'id' => $id, 'pos' => $position,
-			'lives' => 8, 'pp' => 50, 'movable' => 2,
-			'gap_x' => 2, 'gap_y' => 1
+			'lives' => 10, 'pp' => 50, 'movable' => 5,
+			'gap_x' => 3, 'gap_y' => 1, 'range' => 9
 			));
 		}
 }
