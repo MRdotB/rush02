@@ -90,6 +90,7 @@ class Player {
 
 	public function give($ship, $data)
 	{
+		$msg = array();
 		$ship->shield = $data['shield'];
 		$ship->gun = $data['gun'];
 		$ship->speed = $data['speed'];
@@ -97,7 +98,10 @@ class Player {
 		while ($repair)
 		{
 			if ($this->RollDice() == 6 && $ship->lives < $ship->getMax_Lives())
+			{
 				$ship->lives++;
+				array_push($msg, "Your engineer know how to handle it ! You get back one live point !");
+			}
 			$repair--;
 		}
 	}
