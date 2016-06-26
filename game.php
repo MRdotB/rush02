@@ -50,7 +50,6 @@ if (!$_SESSION['login'])
     <div id="dialog" title="Info">
       <ul>
         <li>Motif: <span id="motif"></span></li>
-        <li>Active: <span id="mactive"></span></li>
         <li>Aim: <span id="aim"></span></li>
         <li>Lives: <span id="mlives"></span></li>
         <li>Shield: <span id="mshield"></span></li>

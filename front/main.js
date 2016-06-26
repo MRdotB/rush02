@@ -67,3 +67,9 @@ getData(function(data) {
 	updateMap(data.map.space);
 	eventAdd(data);
 });
+window.setInterval(function() {
+	getData(function(data) {
+		updateMap(data.map.space);
+		eventAdd(data);
+	});
+}, 1000);
