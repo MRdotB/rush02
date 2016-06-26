@@ -104,6 +104,8 @@ class Player {
 			}
 			$repair--;
 		}
+		array_push($msg, "You ship has now:\nshield:".$shipt->shield."\ngun:".$ship->shield."\nlvies:".$ship->lives."\nspeed:".$ship->speed);
+		echo json_encode(array("messages" => $msg));
 	}
 
 	public function move($ship, $data, $map)
@@ -127,6 +129,7 @@ class Player {
 			if ($ship->last_move < $ship->getMovable())
 			{
 				echo json_encode(array("message" => "You can't turn so far\n"));
+				$this->draw_ship($ship, $map);
 				return (0);
 			}
 			else

@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -7,6 +6,7 @@
         <title>Awesome Starships Battles In The Dark Grim Futur Of The Grim Dark 41st Millenium</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css">
     </head>
     <body>
     <div class="container">
@@ -36,16 +36,28 @@
 
       <div id="fireAction">
         <h2>Fire</h2>
-        <input id="fire" type="submit" value="Tirer">
+        <input id="fire" type="submit" value="Tirer / Fin de tour">
     </div>
     <br>
     <br>
     <br>
     <button id="reset">Reset</button>
+    <div id="dialog" title="Info">
+      <ul>
+        <li>Motif: <span id="motif"></span></li>
+        <li>Active: <span id="mactive"></span></li>
+        <li>Aim: <span id="aim"></span></li>
+        <li>Lives: <span id="mlives"></span></li>
+        <li>Shield: <span id="mshield"></span></li>
+        <li>Last move: <span id="lastMove"></span></li>
+      </ul>
+      </div>
     </div>
       <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script   src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"   integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo="   crossorigin="anonymous"></script>
       <script src="front/call.js"></script>
       <script src="front/main.js"></script>
       <script src="front/events.js"></script>
+      <script src="front/shipmodal.js"></script>
     </body>
 </html>

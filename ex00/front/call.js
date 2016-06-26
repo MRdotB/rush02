@@ -20,3 +20,15 @@ function getInfo() {
 	});
 }
 
+function getData(callback){
+	var data = {
+		phase: "data"
+	};
+	$.ajax({
+		type: "POST",
+		url: "game.php",
+		data: data,
+		success: callback,
+		dataType: 'json'
+	});
+}

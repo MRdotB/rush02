@@ -4,7 +4,9 @@ var $fire = $('#fire');
 var $moveActions = $('#moveActions');
 
 var orderCb = function(data) {
-	console.log(data);
+	if (data.messages) {
+		alert(data.messages);
+	}
 }
 
 var fireCb = function(data) {
@@ -14,18 +16,22 @@ var fireCb = function(data) {
 	} else if (data.message) {
 		alert(data.message);
 	}
-	if (data.map) {
-		updateMap(data.map);
-	}
+
+	getData(function(data) {
+		updateMap(data.map.space);
+		eventAdd(data);
+	});
 }
 
 var moveCb = function(data) {
 	console.log('moveCb', data);
 	if (data.message) {
 		alert(data.message);
-	} else {
-		updateMap(data.map);
 	}
+	getData(function(data) {
+		updateMap(data.map.space);
+		eventAdd(data);
+	});
 }
 
 $order.on('click', function (e) {
@@ -81,6 +87,7 @@ $moveActions.on('click', 'button', function (e) {
 });
 
 $reset.on('click', function(e) {
+	cleanMap();
 	e.preventDefault();
 	var data = {
 		phase: "clean"

@@ -45,7 +45,6 @@ function renderMap (map) {
 
 function updateMap (map) {
 	getInfo();
-	console.log("Update.");
 	$cellGrid.find('td').removeClass('colorA colorB');
 	for (let x = 0; x < gridHeight; x++) {
 		for (let y = 0; y < gridWidth; y++) {
@@ -53,13 +52,18 @@ function updateMap (map) {
 				$("#" + x + "-" + y).addClass('colorA');
 			} else if (map[x][y] >= 'a' && map[x][y] <= 'z') {
 				$("#" + x + "-" + y).addClass('colorB');
-			} else if (map[x][y] == 'X') {
+			} else if (map[x][y] == '*') {
 				$("#" + x + "-" + y).addClass('asteroid');
 			}
 		}
 	}
 }
 
+var $dialog = $("#dialog");
 var map = baseMap(gridWidth, gridHeight);
-console.log(map);
 renderMap(map);
+$dialog.dialog({ autoOpen: false });
+getData(function(data) {
+	updateMap(data.map.space);
+	eventAdd(data);
+});

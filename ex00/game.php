@@ -31,13 +31,15 @@ Router::listenPost(function ($data) {
 	$game = $_SESSION['game'];
 	$player = $_SESSION['currPlayer'];
 	$sh_rank = $game->get_ship_rank($player);
-	if ($data["phase"] == "clean") {
+	if ($data["phase"] == "data") {
+		echo json_encode($game);
+	} else if ($data["phase"] == "clean") {
 		$_SESSION = array();
 		echo json_encode(array("success" => "clean"));
 	}
 	else if ($data["phase"] == "order") {
 		$game->$player->give($game->$player->armada[$sh_rank], $data);
-		print_r($game->$player);
+		//print_r($game->$player);
 	}
 	else if ($data["phase"] == "move") {
 		if ($data["move"] == "forward") {

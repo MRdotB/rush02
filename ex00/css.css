@@ -34,12 +34,13 @@ body {
 }
 
 .colorA {
-	background-color: purple;
+	background-color: #49b925;
 }
 
 .colorB {
 	background-color: blue;
 }
 .asteroid {
-	background-color: red;
+	background-color: grey;
+	border-radius: 50%;
 }
