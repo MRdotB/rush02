@@ -59,14 +59,14 @@ if (!$_SESSION['login']) {
               }
             }
             $game = get_game2();
+            $curr_player = $_SESSION['login'];
             if (!isset($game['users'])) {
-              $curr_player = $_SESSION['login'];
               echo "Waiting for 2 players";
               echo ("<a href='../api.php?join=".$curr_player."'>Rejoindre</a>");
             }
             else if (count($game['users']) === 1) {
               echo "Waiting for 1 players";
-              echo '<a href="../api.php?join="'.$curr_player.">Rejoindre</a>";
+              printf("<a href='../api.php?join=%s'>Rejoindre</a>", $curr_player);
             }
             else {
               echo '<a href="../api.php?start=true">Play</a>';

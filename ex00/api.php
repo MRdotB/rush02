@@ -26,19 +26,6 @@ session_start();
 
 // Game tests
 
-// if (!$_SESSION['game'])  {
-// 	$game = new Game();
-// 	$game->player1->draw_ship($game->player1->armada[0], $game->map);
-// 	$game->player1->draw_ship($game->player1->armada[1], $game->map);
-// 	$game->player1->draw_ship($game->player1->armada[2], $game->map);
-// 	$game->player2->draw_ship($game->player2->armada[0], $game->map);
-// 	$game->player2->draw_ship($game->player2->armada[1], $game->map);
-// 	$game->player2->draw_ship($game->player2->armada[2], $game->map);
-// 	$_SESSION['game'] = $game;
-// 	$_SESSION['currPlayer'] = 'player1';
-// }
-
-//
 //				IMPORTANT METTRE DES $SHIP_RANK = GET_SHIP_RANK
 //					A CHAQUE PHASE POUR LES APPELS AVEC SHIP PLIZ
 //						ET REMPLACER TOUS LES SHIP PAR DES ARMADA[$SHIP_RANK]
