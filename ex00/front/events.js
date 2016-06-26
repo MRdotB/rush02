@@ -62,7 +62,7 @@ console.log("attack speed repair shield", attack, speed, repair, shield);
 
 		$.ajax({
 			type: "POST",
-			url: "game.php",
+			url: "api.php",
 			data: data,
 			success: orderCb,
 			dataType: 'json'
@@ -79,7 +79,7 @@ $moveActions.on('click', 'button', function (e) {
 	};
 	$.ajax({
 		type: "POST",
-		url: "game.php",
+		url: "api.php",
 		data: data,
 		success: moveCb,
 		dataType: 'json'
@@ -94,7 +94,7 @@ $reset.on('click', function(e) {
 	};
 	$.ajax({
 		type: "POST",
-		url: "game.php",
+		url: "api.php",
 		data: data,
 		success: function (data) {
 			console.log(data);
@@ -110,7 +110,7 @@ $fire.on('click', function(e) {
 	};
 	$.ajax({
 		type: "POST",
-		url: "game.php",
+		url: "api.php",
 		data: data,
 		success: fireCb,
 		dataType: 'json'

@@ -1,6 +1,6 @@
 <?php
 
-include_once('doc.trait.php'); 
+include_once('doc.trait.php');
 include_once('back/Map.class.php');
 include_once('back/Game.class.php');
 include_once('back/Player.class.php');

@@ -13,7 +13,7 @@ function getInfo() {
 	};
 	$.ajax({
 		type: "POST",
-		url: "game.php",
+		url: "api.php",
 		data: data,
 		success: infoCb,
 		dataType: 'json'
@@ -26,7 +26,7 @@ function getData(callback){
 	};
 	$.ajax({
 		type: "POST",
-		url: "game.php",
+		url: "api.php",
 		data: data,
 		success: callback,
 		dataType: 'json'
