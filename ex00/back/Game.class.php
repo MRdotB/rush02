@@ -48,13 +48,15 @@ class Game {
 		$this->player2->armada[0]->active();
 	}
 
-	public function ship_cleaner()
+	public function ship_cleaner($sh_rank, $id)
 	{
 		$ct = 0;
 		while ($this->player1->armada[$ct])
 		{
 			if ($this->player1->armada[$ct]->lives <= 0)
 			{
+				if ($sh_rank == $ct && $id == $this->player1->armada[$ct]->id)
+					$sh_rank--;
 				unset($this->player1->armada[$ct]);
 				$this->player1->armada = array_values($this->player1->armada);
 			}
@@ -65,11 +67,14 @@ class Game {
 		{
 			if ($this->player2->armada[$ct]->lives <= 0)
 			{
+				if ($sh_rank == $ct && $id == $this->player2->armada[$ct]->id)
+					$sh_rank--;
 				unset($this->player2->armada[$ct]);
 				$this->player2->armada = array_values($this->player2->armada);
 			}
 			$ct++;
 		}
+		return ($sh_rank);
 	}
 
 //	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }
