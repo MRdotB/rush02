@@ -25,13 +25,12 @@ class Player {
 	}
 
 
-
 	public function gun($ship, $map, $nemesis)     //prend armada ennemie normalement
 	{
 		$msg = array();
 		if (!$ship->gun)
 		{
-			echo json_encode(array("message" => "You don't havy any ammo left, reload comrade !\n"));
+			echo json_encode(array("message" => "You don't hany any ammo left, reload comrade !\n"));
 			return ;
 		}
 		if ($rank = ($this->hay_target($ship, $map->space, $nemesis) === FALSE))   //recup target id normaly

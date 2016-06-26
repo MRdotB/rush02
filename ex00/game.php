@@ -54,6 +54,7 @@ Router::listenPost(function ($data) {
 	} else if ($data["phase"] == "gun") {
 		$player == 'player1' ? $nemesis = 'player2' : $nemesis = 'player1';
 		$game->$player->gun($game->$player->armada[$sh_rank], $game->map, $game->$nemesis);
+		$game->ship_cleaner();
 		if ($game->$player->armada[$sh_rank + 1])
 		{
 			$game->$player->armada[$sh_rank]->desactive();

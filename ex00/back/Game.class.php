@@ -34,7 +34,7 @@ class Game {
 	public function __construct() {
 		$this->map = new Map(array('size' => [75, 50], 'max_X' => 74, 'max_Y' => 49,
 			'obstacles' => [[10, 10], [20, 20], [45, 45]]));
-		$ship1 = SpaceshipFactory::create('FatherOfDespair', 'a', [15, 15]);
+		$ship1 = SpaceshipFactory::create('FatherOfDespair', 'a', [25, 25]);
 		$ship2 = SpaceshipFactory::create('FatherOfDespair', 'A', [30, 30]);
 		$ship3 = SpaceshipFactory::create('SorrowBoy', 'b', [40, 10]);
 		$ship4 = SpaceshipFactory::create('SorrowBoy', 'B', [10, 40]);
@@ -46,6 +46,30 @@ class Game {
 		$this->player2 = new Player(array('name' => '2', 'ship' => $ship2, 'armada' => $armada2));
 		$this->player1->armada[0]->active();
 		$this->player2->armada[0]->active();
+	}
+
+	public function ship_cleaner()
+	{
+		$ct = 0;
+		while ($this->player1->armada[$ct])
+		{
+			if ($this->player1->armada[$ct]->lives <= 0)
+			{
+				unset($this->player1->armada[$ct]);
+				$this->player1->armada = array_values($this->player1->armada);
+			}
+			$ct++;
+		}
+		$ct = 0;
+		while ($this->player2->armada[$ct])
+		{
+			if ($this->player2->armada[$ct]->lives <= 0)
+			{
+				unset($this->player2->armada[$ct]);
+				$this->player2->armada = array_values($this->player2->armada);
+			}
+			$ct++;
+		}
 	}
 
 //	public function __get($name) { throw new Exception('You have to use instance.getAttr() !'); }
