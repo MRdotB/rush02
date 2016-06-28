@@ -16,7 +16,7 @@ class Game {
 	private $turn = 0;
 	public $player1;
 	public $player2;
-	private $currentPlayer;
+	public $currPlayer;
 	public $map;
 
 	public function get_ship_rank($player)

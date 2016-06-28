@@ -17,8 +17,8 @@ function init_game() {
     	$game->player2->draw_ship($game->player2->armada[1], $game->map);
     	$game->player2->draw_ship($game->player2->armada[2], $game->map);
     	$_SESSION['game'] = $game;
+    	$game->currPlayer = 'player1';
       save_game($game);
-    	$_SESSION['currPlayer'] = 'player1';
   }
 	header('Location: game.php');
 }
@@ -45,7 +45,7 @@ Router::listenPost(function ($data) {
 	set_game();
 //	var_dump($_SESSION['game']);
 	$game = $_SESSION['game'];
-	$player = $_SESSION['currPlayer'];
+	$player = $game->currPlayer;
 	$sh_rank = $game->get_ship_rank($player);
 	if ($data["phase"] == "data") {
 		echo json_encode($game);
@@ -82,7 +82,7 @@ Router::listenPost(function ($data) {
 		{
 			$game->$player->armada[$sh_rank]->desactive();
 			$game->$player->armada[0]->active();
-			$_SESSION['currPlayer'] = $nemesis;
+			$game->currPlayer = $nemesis;
 		}
 		$game->tour++;
 	} else if ($data["phase"] == "info") {
